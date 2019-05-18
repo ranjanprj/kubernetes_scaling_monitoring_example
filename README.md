@@ -108,3 +108,5 @@ echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/
 
  - To purge all helm charts
   `helm ls --all --short | xargs -L1 helm delete --purge`
+
+![Grafana Screenshot](GrafanaScreenshot.png)
