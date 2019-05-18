@@ -1,13 +1,14 @@
-This project is a simple demonstration of how to use Kubernetes Horizontal Autoscaler for Pods
-and monitor nodes resources using Grafana and Prometheus.
+# Kubernetes HTTP Auto Scaler with Grafana & Prometheus Monitoring
+### This project is a simple demonstration of how to use Kubernetes Horizontal Autoscaler for Pods and monitor nodes resources using Grafana and Prometheus.
 
-Tested on Ubuntu 18.04
-===============
+![Grafana Screenshot](GrafanaScreenshot.png)
+
+    *** Please note Tested on Ubuntu 18.04 ***
+
 
 
 # 1.Docker for Ubuntu.(Optional)
-    Only if you wish to create your own docker container repository, otherwise you can use 
-    ranjanprj/helloautoscaler
+    Step 1 only if you wish to create your own docker container repository, otherwise you can use already published ranjanprj/helloautoscaler
 
 ### 1.1 Update repositories
 sudo apt-get update
@@ -109,4 +110,3 @@ echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/
  - To purge all helm charts
   `helm ls --all --short | xargs -L1 helm delete --purge`
 
-![Grafana Screenshot](GrafanaScreenshot.png)
