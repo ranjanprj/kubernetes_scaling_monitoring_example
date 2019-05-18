@@ -1,0 +1,22 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: helloautoscaler
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: helloautoscaler
+    spec:
+      containers:
+      - name: helloautoscaler
+        image: ranjanprj/helloautoscaler:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+            limits:
+              cpu: "0.5"
+            requests:
+              cpu: "0.25"
