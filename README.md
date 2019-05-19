@@ -58,25 +58,29 @@ Dockerfile and src folder with your favorite programming language.
 -   `curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list`
 - `sudo apt update`
-- `sudo apt install kubectl`
+- `sudo apt install -y kubectl`
 
-- Setup permissions to minikube and kubectl to be used without sudo
-    -   sudo chown -R $USER $HOME/.kube
-    -   sudo chgrp -R $USER $HOME/.kube
-    -   sudo chown -R $USER $HOME/.minikube
-    -   sudo chgrp -R $USER $HOME/.minikube
+
 
 
 # 3. Steps to run the sample HPA after installing required tools.
 
 
 - Setup Minikube
-
+    - Elevate to su by running `sudo -s`
     - Run `minikube start`
     - Enable metrics-server by `minikube addons enable metrics-server`      
 
+- Setup permissions to minikube and kubectl 
+    -   sudo chown -R $USER $HOME/.kube
+    -   sudo chgrp -R $USER $HOME/.kube
+    -   sudo chown -R $USER $HOME/.kube/config
+    -   sudo chgrp -R $USER $HOME/.kube/config
+    -   sudo chown -R $USER $HOME/.minikube
+    -   sudo chgrp -R $USER $HOME/.minikube
         
 - Git Clone this project
+    - Elevate to su by running `sudo -s` in case you get errors running minikube or kubectl
     - cd to this project directory and run following command ,  
     `kubectl apply -f autoscaler`
     - on new command tab and run `minikube dashboard` to open Kubernetes dashboard
@@ -84,9 +88,8 @@ echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/
     - To see HPA kick in open terminal(T1) with following command `watch -n 1 kubectl get pods`
     - Install Apache Bench `sudo apt install -y apache2-utils`
     - In a new terminal run and flood the pod with requests every 10 seconds
-    ` watch -n 10 ab -c 1000 -n  100000000000 -t 1000  $(minikube service helloautoscaler --url)/
-`
-`
+    - Elevate to su by running `sudo -s` and then
+    `watch -n 10 ab -c 1000 -n  100000000 -t 1000  $(minikube service helloautoscaler --url)/`
     - Monitor first terminal(T1) to see autoscaling of pods
     - Since golang can be fast run ab command several times if you don't see autoscaling kick in
 
@@ -107,6 +110,14 @@ echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/
 -  Open http://localhost:3000 for Grafana
 - At top-left select Home - > Kubernetes/Nodes to see all the metrics of the Node including network traffic
 
+
+### 5. Cleanup
  - To purge all helm charts
   `helm ls --all --short | xargs -L1 helm delete --purge`
+- `minikube stop`
+- `minikube delete`
+- `sudo rm -r ~/.minikube`
+- `sudo rm -r ~/.kube`
+
+
 
